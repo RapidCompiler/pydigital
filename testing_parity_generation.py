@@ -9,10 +9,11 @@ def EncodeLRC(arr):
     for j in range(arrElemLen[1]):
         lrc_parity += str(parityCalculator(arr, j))
 
+    print([lrc_parity, " ".join(arr) + " " + lrc_parity])
     return [lrc_parity, " ".join(arr) + " " + lrc_parity]
 
 # Encodes an array of binary numbers using VRC
-def EncodeVRC(arr):
+def EncodeVRC(arr, sep=None):
     # Check if all elements of same size
     arrElemLen = arrElemLenCheck(arr)
     if not arrElemLen[0]:
@@ -36,14 +37,16 @@ def EncodeCRC(dataStream, key):
     return [remainder, dataStream + remainder]
 
 # Encodes a array of binary numbers using Checksum technique
-def EncodeChecksum(dataArr):
-    dataArrCopy = dataArr.copy()
-    remainderLen = len(dataArrCopy[0])
+def EncodeChecksum(data1):
+    print(data1)
+    data = data1.copy()
+    print(data)
+    remainderLen = len(data[0])
     
-    while len(dataArrCopy) != 1:
+    while len(data) != 1:
         # Using an array as a stack
-        firstElem = dataArrCopy.pop(0)
-        secondElem = dataArrCopy.pop(0)
+        firstElem = data.pop(0)
+        secondElem = data.pop(0)
         maxLen = max(len(firstElem), len(secondElem))
 
         # Converting binary number to decimal integer
@@ -54,18 +57,17 @@ def EncodeChecksum(dataArr):
         sum = firstNum + secondNum
         binSum = bin(sum)
 
-        # Adding binary numbers
+        # DONT UNDERSTAND THE BELOW SECTION OF CODE
         if len(binSum) - 2 != maxLen:
             binSum = bin(int(binSum[2:-maxLen], 2) + int(binSum[-maxLen:], 2))
             
-        dataArrCopy.insert(0, binSum[2:].zfill(remainderLen))
+        data.insert(0, binSum[2:].zfill(remainderLen))
 
-    checksum = "".join(list(map(lambda x: '1' if x == '0' else '0', dataArrCopy[0])))
-    return [checksum, " ".join(dataArr) + " " + checksum]
+    checksum = "".join(list(map(lambda x: '1' if x == '0' else '0', data[0])))
+    return [checksum, " ".join(data1) + " " + checksum]
 
 # Decodes an LRC binary dataStream given the number of data strings and the number of bits per data string
-def DecodeLRC(dataStream, bits, bytes, retType=0):
-    dataStream = dataStream.replace(" ", "")
+def DecodeLRC(dataStream, bits, bytes, retType="text"):
     # Create array of data strings from dataStream
     arr = arrGen4VRCLRCChecksum(dataStream, bits, bytes)
 
@@ -75,17 +77,16 @@ def DecodeLRC(dataStream, bits, bytes, retType=0):
 
     # Checking if parity bits are correct
     if arr[-1] == lrc_parity:
-        return ReturnArgument(True, retType, " ".join(arr[:-1]))
+        print("DATA TRANSMITTED : ", " ".join(arr[:-1]))
+        return "THE DATA TRANSMITTED IS CORRECT"
     
-    return ReturnArgument(False, retType)
+    return "THERE IS AN ERROR IN THE DATA"
     
 # Decodes a VRC binary dataStream given the number of data strings and the number of bits per data string
-def DecodeVRC(dataStream, bits, bytes, retType=0):
-    dataStream = dataStream.replace(" ", "")
-
+def DecodeVRC(dataStream, bits, bytes):
     # Create array of data strings from dataStream
     arr = arrGen4VRCLRCChecksum(dataStream, bits, bytes, True)
-
+    print(arr)
     # Create VRC bit string
     vrc_parity_arr = "".join([dataString[-1] for dataString in arr])
     dataArr = [dataString[:-1] for dataString in arr]
@@ -95,30 +96,29 @@ def DecodeVRC(dataStream, bits, bytes, retType=0):
 
     # Checking if parity bits are correct
     if vrc_parity_arr == vrc_parity:
-        return ReturnArgument(True, retType, " ".join(dataArr))
+        print("DATA TRANSMITTED : "," ".join(dataArr))
+        return "THE DATA TRANSMITTED IS CORRECT"
 
-    return ReturnArgument(False, retType)
+    return "THERE IS AN ERROR IN THE DATA"
 
 # Decodes a CRC binary dataStream given the number of data strings and the number of bits per data string
-def DecodeCRC(dataStream, key, retType=0):
-    dataStream = dataStream.replace(" ", "")
+def DecodeCRC(dataStream, key):
     remainder = mod2div(dataStream, key)
-
     if not remainder.count('1'):
-        return ReturnArgument(True, retType, "".join(dataStream[:-(len(key)-1)]))        
-
-    return ReturnArgument(False, retType)
+        print("DATA TRANSMITTED : ","".join(dataStream[:-(len(key)-1)]))
+        return "THE DATA TRANSMITTED IS CORRECT"
+    return "THERE IS AN ERROR IN THE DATA"
 
 # Decodes a Checksum binary dataStream given the number of data strings and the number of bits per data string
-def DecodeChecksum(dataStream, bits, bytes, retType=0):
-    dataStream = dataStream.replace(" ", "")
+def DecodeChecksum(dataStream, bits, bytes):
+
     arr = arrGen4VRCLRCChecksum(dataStream, bits, bytes)
 
     checksum = EncodeChecksum(arr)
     if not checksum[0].count('1'):
-        return ReturnArgument(True, retType, " ".join(arr[:-1]))
-
-    return ReturnArgument(False, retType)
+        print("DATA TRANSMITTED : "," ".join(arr[:-1]))
+        return "THE DATA TRANSMITTED IS CORRECT"
+    return "THERE IS AN ERROR IN THE DATA"
 
 # Generate array for VRC and Checksum decoding
 def arrGen4VRCLRCChecksum(dataStream, bits, bytes, flag=False):
@@ -191,53 +191,81 @@ def mod2div(dividend, divisor):
 
     return tmp
 
-# Helper function to generate appropriate return values based on input retType
-def ReturnArgument(status, retType, data=None):
-    if status and data:
-        if retType == 0:
-            return True
-        elif retType == 1:
-            return data
-        elif retType == 2:
-            return "THE DATA TRANSMITTED IS CORRECT"
-    elif not status and not data:
-        if retType == 0:
-            return False
-        else:
-            return "THERE IS AN ERROR IN THE DATA"
-
 # Main function
 def main():
-    
-    lrc = EncodeLRC(['10110', '10100'])
-    print("LRC :", lrc[0])
-    print("DATA TRANSMITTED :", lrc[1])
+    # RX or TX Choice
+    choice = int(input("DO YOU WANT TO TRANSMIT OR RECEIVE DATA\n1. TRANSMIT\n2. RECEIVE\n\nYOUR CHOICE : "))
+    print()
 
-    lrc = DecodeLRC('10110 10100 00010', 5, 2, 0)
-    print(lrc)
-    
+    # Error Detection Algorithm Choice
+    option = input("WHICH ERROR DETECTION ALGORITHM DO YOU WANT TO USE?\n1. LRC\n2. VRC\n3. CRC\n4. CHECKSUM\n\nYOUR CHOICE : ")
+    print()
 
-    vrc = EncodeVRC(['10110', '10100'])
-    print("VRC :", vrc[0])
-    print("DATA TRANSMITTED :", vrc[1])
+    # Data Input Block for Reception
+    if choice == 2:
+        dataStream = input("ENTER THE RECEIVED DATA STREAM : ")
+        if option == '1' or option == '2' or option == '4':
+            bytes = int(input("ENTER THE NUMBER OF DATA STRINGS IN DATA STREAM : "))
+            bits = int(input("ENTER THE NUMBER OF BITS IN EACH DATA STRING : "))
+        if (option == '2' and (len(dataStream) - int(bytes)) % bits) or (option == '1' and len(dataStream) != (bytes * bits) + bits): print("\nTHERE IS AN INCONSISTENCY IN THE DATA ENTERED\n", len(dataStream) - 1, bits); return
+    
+    print()
+
+
+    # Encoding and Decoding Block Starts Here
+    print("----------------------------------------------")
+    if option == '1':
+        # LRC TX
+        if choice == 1:
+            lrc = EncodeLRC(['10110', '10100'])
+            print("LRC :", lrc[0])
+            print("DATA TRANSMITTED :", lrc[1])
+
+        # LRC RX
+        else:
+            lrc = DecodeLRC(dataStream, bits, bytes)
+            print(lrc)
             
-    vrc = DecodeVRC('101101 101001', 5, 2, 2)
-    print(vrc)
+    if option == '2':
+        # VRC TX
+        if choice == 1:
+            vrc = EncodeVRC(['10110', '10100'])
+            print("VRC :", vrc[0])
+            print("DATA TRANSMITTED :", vrc[1])
+        
+        # VRC RX
+        else:
+            vrc = DecodeVRC(dataStream, bits, bytes)
+            print(vrc)
     
+    if option == '3':
+        key = input("PLEASE ENTER POLYNOMIAL KEY FOR CRC : ")
+        print()
+        # CRC TX
+        if choice == 1:
+            crc = EncodeCRC('100100', '1101')
+            print("CRC :", crc[0])
+            print("DATA TRANSMITTED :", crc[1])
 
-    crc = EncodeCRC('100100', '1101')
-    print("CRC :", crc[0])
-    print("DATA TRANSMITTED :", crc[1])
+        # CRC RX
+        else:
+            crc = DecodeCRC('100100001', '1101')
+            print(crc)
 
-    crc = DecodeCRC('100100001', '1101', 0)
-    print(crc)
+    if option == '4':
+        # Checksum TX
+        if choice == 1:
+            checksum = EncodeChecksum(['11001100', '10101010', '11110000', '11000011'])
+            print("CHECKSUM :", checksum[0])
+            print("DATA TRANSMITTED :", checksum[1])
 
+        # Checksum RX
+        else:
+            checksum = DecodeChecksum(dataStream, bits, bytes)
+            print(checksum)
 
-    checksum = EncodeChecksum(['11001100', '10101010', '11110000', '11000011'])
-    print("CHECKSUM :", checksum[0])
-    print("DATA TRANSMITTED :", checksum[1])
-
-    checksum = DecodeChecksum('11001100 10101010 11110000 11000011 11010011', 8, 4, 2)
-    print(checksum)
+    print("----------------------------------------------")
+    # Encoding and Decoding Block Ends Here
 
 main()
+
