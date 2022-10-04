@@ -31,6 +31,9 @@ lc = LineCoding()
 # Plots differential manchester line coding for the binary string
 lc.diffmanchester('10010110')
 ```
+
+![10010110 in Differential Manchester](https://github.com/rapidcompiler/pydigital/blob/master/tests/diffmanchester.jpg?raw=true)
+
 > ❗ All line coding methods accept parameters in the form of strings, and arrays/tuples of integers/strings.
 
 Different line coding techniques are available, all of which are listed below. 
