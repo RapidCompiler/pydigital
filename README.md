@@ -1,5 +1,4 @@
 # PyDigital
------
 
 [![PyPI version](https://badge.fury.io/py/)](https://badge.fury.io/py/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django.svg)](https://pypi.org/project//)
