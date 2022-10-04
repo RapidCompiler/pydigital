@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "PyDigital"
-version = "1.0.0"
+version = "1.1.0"
 authors = [
   { name="Sanjay S", email="sanjusuresh2001@gmail.com" },
   { name="Prathish K V", email="prathishvijayakumar@gmail.com" }
