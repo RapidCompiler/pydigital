@@ -1,9 +1,9 @@
 # PyDigital
 
-[![PyPI version](https://badge.fury.io/py/)](https://badge.fury.io/py/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django.svg)](https://pypi.org/project//)
-[![PyPI - Status](https://img.shields.io/pypi/status/Django.svg)](https://pypi.org/project//)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://.mit-license.org/)
+[![PyPI version](https://img.shields.io/pypi/v/pydigital?color=44cc11&style=for-the-badge)](https://badge.fury.io/py/pydigital)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pydigital?style=for-the-badge)](https://python.org)
+[![PyPI - Status](https://img.shields.io/pypi/status/django?style=for-the-badge)](https://pypi.org/project/pydigital/)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
 
 This python package __PyDigital__ provides visual representations of digital data line coding 📈 as well as generation of parity bits 🔢 and error detection for binary data.
 
