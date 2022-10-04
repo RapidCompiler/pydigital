@@ -32,7 +32,7 @@ lc = LineCoding()
 lc.diffmanchester('10010110')
 ```
 
-![10010110 in Differential Manchester](https://github.com/rapidcompiler/pydigital/blob/master/tests/diffmanchester.png?raw=true)
+![10010110 in Differential Manchester](https://rawcdn.githack.com/rapidcompiler/pydigital/bdf7fc860bb51e6e1d463146658b9a5b2df2a0dd/tests/diffmanchester.jpg?raw=true)
 
 > ❗ All line coding methods accept parameters in the form of strings, and arrays/tuples of integers/strings.
 
