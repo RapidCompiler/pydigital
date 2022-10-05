@@ -30,7 +30,7 @@ authors:
     equal-contrib: true
     affiliation: 1
 affiliations:
- - name: Independent Researcher, Country
+ - name: Independent Researcher, India
    index: 1
 date: 5 October 2022
 
