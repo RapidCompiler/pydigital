@@ -103,6 +103,7 @@ $ pip install .
 Run the `pip install .` command in the main project directory.
 
 This project does not have a `setup.py` file and hence cannot be installed in the editable mode.
+
 ## Issues
 
 You can report bugs and suggest improvements on this repository's [issue tracker](https://github.com/rapidcompiler/pydigital/issues)
