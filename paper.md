@@ -1,3 +1,41 @@
+---
+title: 'PyDigital: A python package intended for visualizing digital data line coding, generating parity bits and detecting errors in parity encoded binary data'
+tags:
+  - Python
+  - Digital Data
+  - Line Coding
+  - Parity Generation
+  - LRC
+  - VRC
+  - CRC
+  - Checksum
+  - Unipolar NRZ
+  - Unipolar RZ
+  - Polar NRZ
+  - Polar NRZL
+  - Polar NRZI
+  - Polar RZ
+  - Bipolar NRZ
+  - Bipolar RZ
+  - Pseudoternary
+  - IEEE Manchester
+  - G E Thomas Manchester
+  - Differential Manchester
+authors:
+  - name: Sanjay Suresh
+    orcid: 0000-0002-8519-7898
+    equal-contrib: true
+    affiliation: 1
+  - name: Prathish K V
+    equal-contrib: true
+    affiliation: 1
+affiliations:
+ - name: Independent Researcher, Country
+   index: 1
+date: 5 October 2022
+
+---
+
 # PyDigital
 
 [![PyPI version](https://img.shields.io/pypi/v/pydigital?color=44cc11&style=for-the-badge)](https://badge.fury.io/py/pydigital)
